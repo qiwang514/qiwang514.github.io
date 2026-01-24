@@ -1,0 +1,65 @@
+server:
+  port: 9090
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/seckill?useSSL=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: wq
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: Wq_Hikari_Poll
+      minimum-idle: 5
+      idle-timeout: 60000
+      maximum-pool-size: 10
+      auto-commit: true
+      max-lifetime: 180000
+      connection-timeout: 30000
+      connection-test-query: select 1
+
+  redis:
+    host: 192.168.232.128
+    port: 6379
+    database: 0
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 10000ms
+        max-idle: 200
+        min-idle: 5
+    password: foobared
+  rabbitmq:
+    host: 192.168.232.128
+    username: guest
+    password: guest
+    virtual-host: /
+    port: 5672
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000ms
+        max-attempts: 3
+        max-interval: 10000ms
+        multiplier: 1
+
+
+
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.wq.seckill.pojo
+#打印sql语句
+logging:
+  level:
+    com.wq.seckill.mapper: debug
